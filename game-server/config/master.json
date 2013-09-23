@@ -1,0 +1,18 @@
+{
+    "development":{
+        "id":"master-server-1",
+        "host":"127.0.0.1",
+        "port":4005,
+        "queryPort":3061,
+        "wsPort":2366
+    },
+
+    "production":{
+        "id":"master-server-1",
+        "host":"127.0.0.1",
+        "port":4005,
+        "queryPort":3061,
+        "wsPort":2366
+    }
+
+}
