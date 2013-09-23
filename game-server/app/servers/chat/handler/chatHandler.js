@@ -51,9 +51,11 @@ handler.send = function(msg, session, next) {
 	//the target is all users
 	if(scope == SCOPE.ALL) {
 		channel.pushMessage(param);
-	} else {
+	} else if(scope == SCOPE.AREA) {
+        channel.pushMessage(param);
+    } else {
 		var tuid = msg.toName;
-		var tsid = channel.getMember(tuid)['sid'];
+		var tsid = "connector-server-1";
 		channelService.pushMessageByUids(param, [{
 			uid: tuid,
 			sid: tsid
