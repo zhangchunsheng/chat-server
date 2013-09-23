@@ -215,7 +215,6 @@ $(document).ready(function() {
                     return;
                 }
                 setName();
-                setRoom();
                 showChat();
                 initUserList(data);
             });
