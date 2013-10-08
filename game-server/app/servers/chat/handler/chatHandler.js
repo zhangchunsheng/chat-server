@@ -6,6 +6,8 @@
  * Description: chatHandler
  */
 var chatRemote = require('../remote/chatRemote');
+var seaking_server = require('../../../lib/seaking_server/seaking_server');
+
 var SCOPE = {
     PRI: '49237U',
     AREA: 'IVNAS2',
@@ -22,6 +24,12 @@ var Handler = function(app) {
 
 var handler = Handler.prototype;
 
+function setContent(str) {
+    str = str.replace(/<\/?[^>]*>/g,'');
+    str = str.replace(/[ | ]*\n/g,'\n');
+    return str.replace(/\n[\s| | ]*\r/g,'\n');
+}
+
 /**
  * Send messages to users
  *
@@ -32,7 +40,9 @@ var handler = Handler.prototype;
  */
 handler.send = function(msg, session, next) {
     var scope = msg.scope;
-    var currentScene = msg.currentScene;
+
+    msg.content = setContent(msg.content);
+
     if(scope == SCOPE.ALL)
         msg.toName = "*";
 
@@ -48,10 +58,32 @@ handler.send = function(msg, session, next) {
 	};
 	var channel = channelService.getChannel(rid, false);
 
+    var command = [];
+    var method = "";
+    if(msg.content.indexOf("/command:") == 0) {
+        command = msg.content.split(":");
+        command = command[1].split("|");
+        method = command[0];
+        var arguments = command[1].split(",");
+
+        if(typeof seaking_server[method] == "function") {
+            seaking_server[method](session, arguments, function(err, reply) {
+
+            });
+            return;
+        }
+    }
+
 	//the target is all users
 	if(scope == SCOPE.ALL) {
 		channel.pushMessage(param);
 	} else if(scope == SCOPE.AREA) {
+        var currentScene = msg.currentScene;
+        seaking_server.getAreaInfo({
+            sceneId: currentScene
+        }, function(err, reply) {
+            console.log(reply);
+        });
         channel.pushMessage(param);
     } else {
 		var tuid = msg.toName;

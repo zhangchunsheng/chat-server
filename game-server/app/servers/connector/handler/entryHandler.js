@@ -30,7 +30,7 @@ handler.enter = function(msg, session, next) {
 	var sessionService = self.app.get('sessionService');
 
 	//duplicate log in
-	if( !! sessionService.getByUid(uid)) {
+	if(!!sessionService.getByUid(uid)) {
 		next(null, {
 			code: 500,
 			error: true
