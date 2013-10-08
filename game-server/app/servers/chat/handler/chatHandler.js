@@ -70,6 +70,9 @@ handler.send = function(msg, session, next) {
             seaking_server[method](session, arguments, function(err, reply) {
 
             });
+            next(null, {
+                code: 200
+            });
             return;
         }
     }
@@ -79,15 +82,22 @@ handler.send = function(msg, session, next) {
 		channel.pushMessage(param);
 	} else if(scope == SCOPE.AREA) {
         var currentScene = msg.currentScene;
+        var uids = [];
+        var tsid = "connector-server-1";
         seaking_server.getAreaInfo({
             sceneId: currentScene
         }, function(err, reply) {
-            console.log(reply);
+            for(var i = 0 ; i < reply.length ; i++) {
+                uids.push({
+                    uid: reply[i],
+                    sid: tsid
+                });
+            }
+            channel.pushMessage(param);
         });
-        channel.pushMessage(param);
     } else {
 		var tuid = msg.toName;
-		var tsid = "connector-server-1";
+        var tsid = "connector-server-1";
 		channelService.pushMessageByUids(param, [{
 			uid: tuid,
 			sid: tsid
