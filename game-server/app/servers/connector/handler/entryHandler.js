@@ -55,6 +55,10 @@ handler.enter = function(msg, session, next) {
 	});
 };
 
+handler.pushMessage = function(app, session) {
+
+};
+
 /**
  * User log out handler
  *

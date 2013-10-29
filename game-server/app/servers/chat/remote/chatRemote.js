@@ -81,3 +81,11 @@ ChatRemote.prototype.kick = function(uid, sid, name) {
 	};
 	channel.pushMessage(param);
 };
+
+ChatRemote.prototype.addNum = function(a, b, callback) {
+    callback(a + b);
+}
+
+ChatRemote.prototype.pushMessage = function(message) {
+
+}
