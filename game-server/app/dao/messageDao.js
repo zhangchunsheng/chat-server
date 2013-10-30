@@ -34,7 +34,6 @@ messageDao.init = function(app) {
     db.subscribe("pushMessage");
 
     db.on("message", function(channel, message) {
-        console.log(message);
         message = JSON.parse(message);
         var param = {
             route: 'onChat',
