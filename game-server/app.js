@@ -23,6 +23,11 @@ app.configure('production|development', function() {
 	app.filter(pomelo.timeout());
 });
 
+app.configure('production|development', 'chat', function() {
+    var redisclient = require('./app/dao/messageDao').init(app);
+    app.set('redisclient', redisclient);
+});
+
 // start app
 app.start();
 
