@@ -10,6 +10,9 @@
 [chat-server_1.0.0.1 2013-10-29 张春生]
 1、新功能：增加pushMessage功能
 
+[chat-server_1.0.0.1 2013-10-30 张春生]
+1、新功能：增加pushMessage功能
+
 --备注分类
 1、新功能：
 2、Bug:
