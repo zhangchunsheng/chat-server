@@ -49,13 +49,13 @@ handler.enter = function(msg, session, next) {
 
 	//put user into channel
 	self.app.rpc.chat.chatRemote.add(session, uid, self.app.get('serverId'), rid, true, function(users) {
-        /*var data = {
+        var data = {
             code: 200,
             users: users
-        }*/
-        var data = {
-            code: 200
         }
+        /*var data = {
+            code: 200
+        }*/
 		next(null, data);
 	});
 };
