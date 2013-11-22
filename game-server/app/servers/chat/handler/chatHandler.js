@@ -49,8 +49,10 @@ handler.send = function(msg, session, next) {
 	var rid = session.get('rid');
 	var username = session.uid;
 	var channelService = this.app.get('channelService');
+    var date = new Date();
 	var param = {
 		route: 'onChat',
+        id: date.getTime(),
         content: msg.content,
 		from: username,
         toName: msg.toName,
