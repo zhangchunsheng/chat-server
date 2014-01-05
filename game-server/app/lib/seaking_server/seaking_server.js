@@ -94,3 +94,26 @@ seaking_server.updateExp = function(session, arguments, next) {
 
     httpHelper.get(host, port, path, headers, data, next);
 }
+
+/**
+ * updateLevel
+ * @param session
+ * @param arguments
+ * @param next
+ */
+seaking_server.updateLevel = function(session, arguments, next) {
+    var nickname = session.uid;
+    var exp = arguments[0];
+
+    var host = serverConfig.host;
+    var port = serverConfig.port;
+    var path = "/gm/updateLevel";
+    var headers = {};
+
+    var data = {
+        nickname: nickname,
+        exp: exp
+    };
+
+    httpHelper.get(host, port, path, headers, data, next);
+}

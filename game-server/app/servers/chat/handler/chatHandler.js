@@ -70,42 +70,54 @@ handler.send = function(msg, session, next) {
 
         if(typeof seaking_server[method] == "function") {
             seaking_server[method](session, arguments, function(err, reply) {
-
-            });
-            next(null, {
-                code: 200
-            });
-            return;
-        }
-    }
-
-	//the target is all users
-	if(scope == SCOPE.ALL) {
-		channel.pushMessage(param);
-	} else if(scope == SCOPE.AREA) {
-        var currentScene = msg.currentScene;
-        var uids = [];
-        var tsid = "connector-server-1";
-        seaking_server.getAreaInfo({
-            sceneId: currentScene
-        }, function(err, reply) {
-            for(var i = 0 ; i < reply.length ; i++) {
-                uids.push({
-                    uid: reply[i],
+                param = {
+                    route: 'onChat',
+                    id: date.getTime(),
+                    content: "GM命令已被执行",
+                    from: username,
+                    toName: username,
+                    scope: SCOPE.PRI
+                };
+                var tuid = username;
+                var tsid = "connector-server-1";
+                channelService.pushMessageByUids(param, [{
+                    uid: tuid,
                     sid: tsid
+                }]);
+                next(null, {
+                    code: 200
                 });
-            }
-            channel.pushMessage(param);
-        });
+            });
+        }
     } else {
-		var tuid = msg.toName;
-        var tsid = "connector-server-1";
-		channelService.pushMessageByUids(param, [{
-			uid: tuid,
-			sid: tsid
-		}]);
-	}
-	next(null, {
-		code: 200
-	});
+        //the target is all users
+        if(scope == SCOPE.ALL) {
+            channel.pushMessage(param);
+        } else if(scope == SCOPE.AREA) {
+            var currentScene = msg.currentScene;
+            var uids = [];
+            var tsid = "connector-server-1";
+            seaking_server.getAreaInfo({
+                sceneId: currentScene
+            }, function(err, reply) {
+                for(var i = 0 ; i < reply.length ; i++) {
+                    uids.push({
+                        uid: reply[i],
+                        sid: tsid
+                    });
+                }
+                channel.pushMessage(param);
+            });
+        } else {
+            var tuid = msg.toName;
+            var tsid = "connector-server-1";
+            channelService.pushMessageByUids(param, [{
+                uid: tuid,
+                sid: tsid
+            }]);
+        }
+        next(null, {
+            code: 200
+        });
+    }
 };
