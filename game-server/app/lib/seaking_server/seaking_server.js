@@ -72,6 +72,23 @@ seaking_server.updateMoney = function(session, arguments, next) {
     httpHelper.get(host, port, path, headers, data, next);
 }
 
+seaking_server.updateGold = function(session, arguments, next) {
+    var nickname = session.uid;
+    var gameCurrency = arguments[0];
+
+    var host = serverConfig.host;
+    var port = serverConfig.port;
+    var path = "/gm/updateGold";
+    var headers = {};
+
+    var data = {
+        nickname: nickname,
+        gameCurrency: gameCurrency
+    };
+
+    httpHelper.get(host, port, path, headers, data, next);
+}
+
 /**
  *
  * @param session
